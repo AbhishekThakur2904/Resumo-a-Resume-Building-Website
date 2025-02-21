@@ -41,18 +41,21 @@ const Education: React.FC<EducationProps> = (props) => {
   const { nextStep } = props;
   const theme = useTheme();
 
-  const schema = yup
-    .object({
-      education: yup.array().of(
-        yup.object({
-          school: yup.string().required("Please Enter School Name"),
-          degree: yup.string().required("Please Enter Degree Name"),
-          startDate: yup.date().required("Please Enter Start Date"),
-          endDate: yup.date().required("Please Enter End Date"),
-        })
-      ),
-    })
-    .required();
+const schema = yup.object({
+  education: yup
+    .array()
+    .of(
+      yup.object({
+        school: yup.string().required("Please Enter School Name"),
+        degree: yup.string().required("Please Enter Degree Name"),
+        startDate: yup.date().nullable().required("Please Enter Start Date"),
+        endDate: yup.date().nullable().required("Please Enter End Date"),
+      })
+    )
+    .required()
+    .min(1, "At least one education entry is required"), // Ensures at least one entry exists
+});
+
 
   const {
     control,
