@@ -29,9 +29,10 @@ interface EducationProps {
 interface IEducation {
   school: string;
   degree: string;
-  startDate: string | null;
-  endDate: string | null;
+  startDate: string;
+  endDate: string;
 }
+
 
 
 const Education: React.FC<EducationProps> = (props) => {
