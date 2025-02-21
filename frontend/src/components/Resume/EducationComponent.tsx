@@ -48,19 +48,14 @@ const schema = yup.object({
       yup.object({
         school: yup.string().required("Please Enter School Name"),
         degree: yup.string().required("Please Enter Degree Name"),
-        startDate: yup
-          .string()
-          .nullable()
-          .required("Please Enter Start Date"),
-        endDate: yup
-          .string()
-          .nullable()
-          .required("Please Enter End Date"),
+        startDate: yup.string().nullable().required("Please Enter Start Date"),
+        endDate: yup.string().nullable().required("Please Enter End Date"),
       })
     )
-    .required()
+    .required("Education field is required") // 🔥 Ensure the array itself is required
     .min(1, "At least one education entry is required"),
-});
+}).required(); // 🔥 Ensure the entire schema is required
+
 
 
 
