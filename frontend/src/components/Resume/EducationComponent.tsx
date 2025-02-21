@@ -34,7 +34,8 @@ interface IEducation {
   endDate: string | null;
 }
 
-const schema: yup.ObjectSchema<{ education: IEducation[] }> = yup.object({
+const schema: yup.ObjectSchema<{ education?: IEducation[] }> = yup.object({
+
   education: yup
     .array()
     .of(
@@ -97,7 +98,7 @@ const Education: React.FC<EducationProps> = ({ nextStep }) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Button
-        onClick={() => append({ school: "", degree: "", startDate: null, endDate: null })}
+       onClick={() => append({ school: "", degree: "", startDate: null, endDate: null })}
         variant="outlined"
         sx={{ marginBottom: "20px", position: "absolute", right: "15px" }}
       >
@@ -155,11 +156,11 @@ const Education: React.FC<EducationProps> = ({ nextStep }) => {
               <DemoContainer components={["DateTimePicker"]}>
               <DatePicker
   value={field.startDate ? dayjs(field.startDate) : null}
-  onChange={(newValue) => {
-    const val: string | null = newValue ? newValue.format("YYYY-MM-DD") : null;
-    setValue(`education.${index}.startDate`, val);
-  }}
-/>
+              onChange={(newValue) => {
+              const val = newValue ? newValue.format("YYYY-MM-DD") : null;
+              setValue(`education.${index}.startDate`, val, { shouldValidate: true });
+            }}
+
               </DemoContainer>
               {errors.education?.[index]?.startDate && (
                 <FormHelperText error>{errors.education[index].startDate?.message}</FormHelperText>
