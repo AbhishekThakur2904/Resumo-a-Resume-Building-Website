@@ -160,7 +160,7 @@ const Education: React.FC<EducationProps> = ({ nextStep }) => {
               const val = newValue ? newValue.format("YYYY-MM-DD") : null;
               setValue(`education.${index}.startDate`, val, { shouldValidate: true });
             }}
-
+/>
               </DemoContainer>
               {errors.education?.[index]?.startDate && (
                 <FormHelperText error>{errors.education[index].startDate?.message}</FormHelperText>
