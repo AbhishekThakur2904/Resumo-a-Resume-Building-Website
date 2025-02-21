@@ -29,9 +29,10 @@ interface EducationProps {
 interface IEducation {
   school: string;
   degree: string;
-  startDate: any;
-  endDate: any;
+  startDate: string | null;
+  endDate: string | null;
 }
+
 
 const Education: React.FC<EducationProps> = (props) => {
   const [query, setQuery] = useSearchParams();
@@ -40,7 +41,6 @@ const Education: React.FC<EducationProps> = (props) => {
   const [updateResume] = useUpdateResumeMutation();
   const { nextStep } = props;
   const theme = useTheme();
-
 const schema = yup.object({
   education: yup
     .array()
@@ -48,27 +48,35 @@ const schema = yup.object({
       yup.object({
         school: yup.string().required("Please Enter School Name"),
         degree: yup.string().required("Please Enter Degree Name"),
-        startDate: yup.date().nullable().required("Please Enter Start Date"),
-        endDate: yup.date().nullable().required("Please Enter End Date"),
+        startDate: yup
+          .string()
+          .nullable()
+          .required("Please Enter Start Date"),
+        endDate: yup
+          .string()
+          .nullable()
+          .required("Please Enter End Date"),
       })
     )
     .required()
-    .min(1, "At least one education entry is required"), // Ensures at least one entry exists
+    .min(1, "At least one education entry is required"),
 });
 
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    register,
-    formState: { errors },
-  } = useForm<{ education: IEducation[] }>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      education: [{ school: "", degree: "", startDate: null, endDate: null }],
-    },
-  });
+
+const {
+  control,
+  handleSubmit,
+  setValue,
+  register,
+  formState: { errors },
+} = useForm<{ education: IEducation[] }>({
+  resolver: yupResolver(schema),
+  defaultValues: {
+    education: [{ school: "", degree: "", startDate: null, endDate: null }],
+  },
+});
+
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -162,11 +170,12 @@ const schema = yup.object({
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
                 <DatePicker
-                  onChange={(newValue) => {
-                    const val = newValue ? newValue.format("YYYY-MM-DD") : null;
-                    setValue(`education.${index}.startDate`, val || new Date());
-                  }}
-                />
+  onChange={(newValue) => {
+    const val = newValue ? newValue.format("YYYY-MM-DD") : null;
+    setValue(`education.${index}.startDate`, val); // Corrected
+  }}
+/>
+
               </DemoContainer>
               {errors.education?.[index]?.startDate && (
               <FormHelperText error>
@@ -180,12 +189,13 @@ const schema = yup.object({
             </FormLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
-                <DatePicker
-                  onChange={(newValue) => {
-                    const val = newValue ? newValue.format("YYYY-MM-DD") : null;
-                    setValue(`education.${index}.endDate`, val || new Date());
-                  }}
-                />
+              <DatePicker
+  onChange={(newValue) => {
+    const val = newValue ? newValue.format("YYYY-MM-DD") : null;
+    setValue(`education.${index}.endDate`, val); // Corrected
+  }}
+/>
+
               </DemoContainer>
               {errors.education?.[index]?.endDate && (
               <FormHelperText error>
