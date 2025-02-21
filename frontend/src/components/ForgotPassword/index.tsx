@@ -9,19 +9,18 @@ import { formVariants } from "../../animation";
 import { motion } from "motion/react";
 
 type Props = {};
-type User = {
-  email: string;
-};
+const schema = yup
+  .object({
+    email: yup
+      .string()
+      .email("Invalid email address")
+      .required("Please Enter Email"),
+  })
+  .required();
+
+type User = yup.InferType<typeof schema>;
 
 const ForgotPasswordComponent = (props: Props) => {
-  const schema = yup
-    .object({
-      email: yup
-        .string()
-        .email("Invalid email address")
-        .required("Please Enter Email"),
-    })
-    .required();
   const {
     register,
     handleSubmit,
