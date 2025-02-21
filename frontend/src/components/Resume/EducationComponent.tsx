@@ -34,8 +34,7 @@ interface IEducation {
   endDate: string | null;
 }
 
-const schema: yup.ObjectSchema<{ education?: IEducation[] }> = yup.object({
-
+const schema: yup.ObjectSchema<{ education: IEducation[] }> = yup.object({
   education: yup
     .array()
     .of(
@@ -51,6 +50,7 @@ const schema: yup.ObjectSchema<{ education?: IEducation[] }> = yup.object({
 });
 
 
+
 const Education: React.FC<EducationProps> = ({ nextStep }) => {
   const [query] = useSearchParams();
   const resumeId = query.get("resumeId");
@@ -58,18 +58,25 @@ const Education: React.FC<EducationProps> = ({ nextStep }) => {
   const [updateResume] = useUpdateResumeMutation();
   const theme = useTheme();
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    register,
-    formState: { errors },
-  } = useForm<{ education: IEducation[] }>({
-    resolver: yupResolver(schema),
+const {
+  control,
+  handleSubmit,
+  setValue,
+  register,
+  formState: { errors },
+} = useForm<{ education: IEducation[] }>({
+  resolver: yupResolver(schema),
   defaultValues: {
-  education: [{ school: "", degree: "", startDate: null as string | null, endDate: null as string | null }],
-},
-  });
+    education: [
+      {
+        school: "",
+        degree: "",
+        startDate: "",  // ✅ Changed from `null` to empty string
+        endDate: "",    // ✅ Changed from `null` to empty string
+      },
+    ],
+  },
+});
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -154,8 +161,9 @@ const Education: React.FC<EducationProps> = ({ nextStep }) => {
             <FormLabel htmlFor={`education[${index}].startDate`}>Start Date</FormLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
-              <DatePicker
-  value={field.startDate ? dayjs(field.startDate) : null}
+         <DatePicker
+  value={field.startDate ? dayjs(field.startDate) : dayjs()} // ✅ Ensures it never breaks
+
               onChange={(newValue) => {
               const val = newValue ? newValue.format("YYYY-MM-DD") : null;
               setValue(`education.${index}.startDate`, val, { shouldValidate: true });
