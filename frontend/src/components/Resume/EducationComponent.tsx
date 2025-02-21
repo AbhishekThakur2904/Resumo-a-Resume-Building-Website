@@ -34,7 +34,7 @@ interface IEducation {
   endDate: string | null;
 }
 
-const schema = yup.object({
+const schema: yup.ObjectSchema<{ education: IEducation[] }> = yup.object({
   education: yup
     .array()
     .of(
@@ -47,7 +47,8 @@ const schema = yup.object({
     )
     .required()
     .min(1, "At least one education entry is required"),
-}).required();
+});
+
 
 const Education: React.FC<EducationProps> = ({ nextStep }) => {
   const [query] = useSearchParams();
@@ -64,9 +65,9 @@ const Education: React.FC<EducationProps> = ({ nextStep }) => {
     formState: { errors },
   } = useForm<{ education: IEducation[] }>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      education: [{ school: "", degree: "", startDate: null, endDate: null }],
-    },
+  defaultValues: {
+  education: [{ school: "", degree: "", startDate: null as string | null, endDate: null as string | null }],
+},
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -152,13 +153,13 @@ const Education: React.FC<EducationProps> = ({ nextStep }) => {
             <FormLabel htmlFor={`education[${index}].startDate`}>Start Date</FormLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
-                <DatePicker
-                  value={field.startDate ? dayjs(field.startDate) : null}
-                  onChange={(newValue) => {
-                    const val = newValue ? newValue.format("YYYY-MM-DD") : null;
-                    setValue(`education.${index}.startDate`, val);
-                  }}
-                />
+              <DatePicker
+  value={field.startDate ? dayjs(field.startDate) : null}
+  onChange={(newValue) => {
+    const val: string | null = newValue ? newValue.format("YYYY-MM-DD") : null;
+    setValue(`education.${index}.startDate`, val);
+  }}
+/>
               </DemoContainer>
               {errors.education?.[index]?.startDate && (
                 <FormHelperText error>{errors.education[index].startDate?.message}</FormHelperText>
