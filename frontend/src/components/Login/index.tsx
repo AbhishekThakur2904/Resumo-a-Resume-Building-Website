@@ -14,26 +14,21 @@ import { motion } from "motion/react";
 import { formVariants } from "../../animation";
 import { useTranslation } from "react-i18next";
 type Props = {};
-type User = {
-  email: string;
-  password: string;
-};
+const schema = yup
+  .object({
+    email: yup.string().email("Invalid email address").required("Please Enter Email"),
+    password: yup.string().required("Please Enter Password"),
+  })
+  .required();
+
+// Infer the schema type to match form values
+type User = yup.InferType<typeof schema>;
 
 const LoginComponent = (props: Props) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  const schema = yup
-    .object({
-      email: yup
-        .string()
-        .email("Invalid email address")
-        .required("Please Enter Email"),
-      password: yup.string().required("Please Enter Password"),
-    })
-    .required();
   const {
     register,
     handleSubmit,
