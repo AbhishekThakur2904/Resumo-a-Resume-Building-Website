@@ -37,7 +37,7 @@ To set up and run this application locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/zeeshan-75way/resume-builder.git
+   git clone https://github.com/AbhishekThakur2904/Resumo-a-Resume-Building-Website.git
    cd resume-builder
    ```
 
