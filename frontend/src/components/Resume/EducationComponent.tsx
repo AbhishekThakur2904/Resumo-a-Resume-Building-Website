@@ -13,10 +13,10 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs"; // ✅ Import dayjs
 
 import {
   useCreateEducationalInfoMutation,
-  useCreatePersonalInfoMutation,
   useUpdateResumeMutation,
 } from "../../services/api";
 import * as yup from "yup";
@@ -26,33 +26,35 @@ import { useForm, useFieldArray } from "react-hook-form";
 interface EducationProps {
   nextStep: () => void;
 }
+
 interface IEducation {
   school: string;
   degree: string;
-  startDate: any;
-  endDate: any;
+  startDate: string | null;
+  endDate: string | null;
 }
 
-const Education: React.FC<EducationProps> = (props) => {
-  const [query, setQuery] = useSearchParams();
+const schema = yup.object({
+  education: yup
+    .array()
+    .of(
+      yup.object({
+        school: yup.string().required("Please Enter School Name"),
+        degree: yup.string().required("Please Enter Degree Name"),
+        startDate: yup.string().nullable().required("Please Enter Start Date"),
+        endDate: yup.string().nullable().required("Please Enter End Date"),
+      })
+    )
+    .required()
+    .min(1, "At least one education entry is required"),
+}).required();
+
+const Education: React.FC<EducationProps> = ({ nextStep }) => {
+  const [query] = useSearchParams();
   const resumeId = query.get("resumeId");
   const [createEduction, { isLoading }] = useCreateEducationalInfoMutation();
   const [updateResume] = useUpdateResumeMutation();
-  const { nextStep } = props;
   const theme = useTheme();
-
-  const schema = yup
-    .object({
-      education: yup.array().of(
-        yup.object({
-          school: yup.string().required("Please Enter School Name"),
-          degree: yup.string().required("Please Enter Degree Name"),
-          startDate: yup.date().required("Please Enter Start Date"),
-          endDate: yup.date().required("Please Enter End Date"),
-        })
-      ),
-    })
-    .required();
 
   const {
     control,
@@ -75,7 +77,7 @@ const Education: React.FC<EducationProps> = (props) => {
   const onSubmit = async (data: { education: IEducation[] }) => {
     try {
       console.log(data);
-      const res = await createEduction(data.education.map((e) => e)).unwrap();
+      const res = await createEduction(data.education).unwrap();
       console.log(res);
       if (res.success) {
         const response = await updateResume({
@@ -94,9 +96,7 @@ const Education: React.FC<EducationProps> = (props) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Button
-        onClick={() =>
-          append({ school: "", degree: "", startDate: null, endDate: null })
-        }
+        onClick={() => append({ school: "", degree: "", startDate: null, endDate: null })}
         variant="outlined"
         sx={{ marginBottom: "20px", position: "absolute", right: "15px" }}
       >
@@ -126,9 +126,7 @@ const Education: React.FC<EducationProps> = (props) => {
               Remove
             </Button>
             <div>
-              <FormLabel htmlFor={`education[${index}].school`}>
-                School Name
-              </FormLabel>
+              <FormLabel htmlFor={`education[${index}].school`}>School Name</FormLabel>
               <TextField
                 fullWidth
                 id={`education[${index}].school`}
@@ -140,9 +138,7 @@ const Education: React.FC<EducationProps> = (props) => {
               />
             </div>
             <div>
-              <FormLabel htmlFor={`education[${index}].degree`}>
-                Degree
-              </FormLabel>
+              <FormLabel htmlFor={`education[${index}].degree`}>Degree</FormLabel>
               <TextField
                 fullWidth
                 id={`education[${index}].degree`}
@@ -153,52 +149,41 @@ const Education: React.FC<EducationProps> = (props) => {
                 variant="outlined"
               />
             </div>
-            <FormLabel htmlFor={`education[${index}].startDate`}>
-              Start Date
-            </FormLabel>
+            <FormLabel htmlFor={`education[${index}].startDate`}>Start Date</FormLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
                 <DatePicker
+                  value={field.startDate ? dayjs(field.startDate) : null}
                   onChange={(newValue) => {
                     const val = newValue ? newValue.format("YYYY-MM-DD") : null;
-                    setValue(`education.${index}.startDate`, val || new Date());
+                    setValue(`education.${index}.startDate`, val);
                   }}
                 />
               </DemoContainer>
               {errors.education?.[index]?.startDate && (
-                <FormHelperText error>
-                  {errors.education[index].startDate?.message}
-                </FormHelperText>
+                <FormHelperText error>{errors.education[index].startDate?.message}</FormHelperText>
               )}
             </LocalizationProvider>
-            <FormLabel htmlFor={`education[${index}].endDate`}>
-              End Date Date
-            </FormLabel>
+            <FormLabel htmlFor={`education[${index}].endDate`}>End Date</FormLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
                 <DatePicker
+                  value={field.endDate ? dayjs(field.endDate) : null}
                   onChange={(newValue) => {
                     const val = newValue ? newValue.format("YYYY-MM-DD") : null;
-                    setValue(`education.${index}.endDate`, val || new Date());
+                    setValue(`education.${index}.endDate`, val);
                   }}
                 />
               </DemoContainer>
               {errors.education?.[index]?.endDate && (
-                <FormHelperText error>
-                  {errors.education[index].endDate?.message}
-                </FormHelperText>
+                <FormHelperText error>{errors.education[index].endDate?.message}</FormHelperText>
               )}
             </LocalizationProvider>
             <Divider sx={{ borderBottom: "1px solid", marginTop: "20px" }} />
           </Box>
         ))}
 
-        <Button
-          disabled={isLoading}
-          sx={{ width: "100%" }}
-          type="submit"
-          variant="contained"
-        >
+        <Button disabled={isLoading} sx={{ width: "100%" }} type="submit" variant="contained">
           {isLoading ? "Loading..." : "Next"}
         </Button>
       </Box>
