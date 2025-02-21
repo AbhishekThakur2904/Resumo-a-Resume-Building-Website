@@ -1,0 +1,15 @@
+{
+  "header": {
+    "title": "Resume Builder Application",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "name": "Name",
+    "home": "Home",
+    "role": "Role",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "forgotPassword": "Forgot Password"
+  }
+}

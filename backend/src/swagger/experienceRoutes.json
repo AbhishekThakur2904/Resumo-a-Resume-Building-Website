@@ -1,0 +1,219 @@
+{
+  "/experience": {
+    "get": {
+      "summary": "Get all experience records",
+      "operationId": "getAllExperience",
+      "tags": ["Experience"],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully fetched all experience records",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Experience Fetched Successfully"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Experience"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "summary": "Create new experience records",
+      "operationId": "createExperience",
+      "tags": ["Experience"],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Experience"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully created experience record",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Experience"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/experience/{id}": {
+    "get": {
+      "summary": "Get experience record by ID",
+      "operationId": "getExperienceById",
+      "tags": ["Experience"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully fetched experience record by ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Experience"
+              }
+            }
+          }
+        }
+      }
+    },
+    "patch": {
+      "summary": "Update experience record by ID",
+      "operationId": "updateExperience",
+      "tags": ["Experience"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Experience"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully updated experience record",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Experience"
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "summary": "Delete experience record by ID",
+      "operationId": "deleteExperience",
+      "tags": ["Experience"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully deleted experience record",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Experience Deleted Successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Experience": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          },
+          "company": {
+            "type": "string",
+            "example": "ABC Corp"
+          },
+          "position": {
+            "type": "string",
+            "example": "Software Engineer"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2022-01-01"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2023-01-01"
+          },
+          "description": {
+            "type": "string",
+            "example": "Responsible for developing web applications"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-01-28T12:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-01-28T12:00:00Z"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

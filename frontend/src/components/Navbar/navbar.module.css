@@ -1,0 +1,36 @@
+.navbar {
+  display: flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 60px;
+  background-color: #3461c2;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", serif;
+  font-weight: 600;
+  font-style: normal;
+  color: white;
+  font-size: 18px;
+}
+
+.navbarlinks {
+  display: flex;
+  gap: 20px;
+}
+
+.navbarlinks a {
+  text-decoration: none;
+  color: white;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.navbarlinks a:hover {
+  color: #000;
+}
+.navbarlinks a.active {
+  color: #000;
+}

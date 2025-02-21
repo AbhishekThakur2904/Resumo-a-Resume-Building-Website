@@ -1,0 +1,15 @@
+{
+  "header": {
+    "title": "Application de Planification de Rendez-vous",
+    "login": "Se connecter",
+    "register": "S'inscrire",
+    "logout": "Se déconnecter",
+    "name": "Nom",
+    "home": "Accueil",
+    "role": "Rôle",
+    "email": "Email",
+    "password": "Mot de passe",
+    "submit": "Soumettre",
+    "forgotPassword": "Mot de passe oublié"
+  }
+}

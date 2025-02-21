@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist", // Output compiled JS files to `dist` directory
+    "rootDir": "./src",  // All TypeScript files are in `src` directory
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
+  "typeRoots": ["./node_modules/@types", "./types"]
+}

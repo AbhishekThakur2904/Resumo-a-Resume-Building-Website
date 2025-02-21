@@ -1,0 +1,206 @@
+{
+  "/personal-info": {
+    "get": {
+      "summary": "Get all personal info",
+      "operationId": "getAllPersonalInfo",
+      "tags": ["Personal Info"],
+      "responses": {
+        "200": {
+          "description": "Successfully fetched all personal info",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Personal Info Fetched Successfully"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/PersonalInfo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "summary": "Create new personal info",
+      "operationId": "createPersonalInfo",
+      "tags": ["Personal Info"],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PersonalInfo"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully created personal info",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalInfo"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/personal-info/{id}": {
+    "get": {
+      "summary": "Get personal info by ID",
+      "operationId": "getPersonalInfoById",
+      "tags": ["Personal Info"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully fetched personal info by ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "patch": {
+      "summary": "Update personal info by ID",
+      "operationId": "updatePersonalInfo",
+      "tags": ["Personal Info"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PersonalInfo"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully updated personal info",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalInfo"
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "summary": "Delete personal info by ID",
+      "operationId": "deletePersonalInfo",
+      "tags": ["Personal Info"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully deleted personal info",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Personal Info Deleted Successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "PersonalInfo": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          },
+          "fullName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john.doe@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+1-234-567-890"
+          },
+          "address": {
+            "type": "string",
+            "example": "1234 Elm Street, Springfield"
+          },
+          "resumeId": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-01-28T12:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-01-28T12:00:00Z"
+          }
+        }
+      }
+    }
+  }
+}

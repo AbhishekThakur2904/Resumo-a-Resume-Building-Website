@@ -1,0 +1,216 @@
+{
+  "/education": {
+    "get": {
+      "summary": "Get all education records",
+      "operationId": "getAllEducation",
+      "tags": ["Education"],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully fetched all education records",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Education Fetched Successfully"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Education"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "summary": "Create new education records",
+      "operationId": "createEducation",
+      "tags": ["Education"],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Education"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully created education record",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Education"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/education/{id}": {
+    "get": {
+      "summary": "Get education record by ID",
+      "operationId": "getEducationById",
+      "tags": ["Education"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully fetched education record by ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Education"
+              }
+            }
+          }
+        }
+      }
+    },
+    "patch": {
+      "summary": "Update education record by ID",
+      "operationId": "updateEducation",
+      "tags": ["Education"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Education"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully updated education record",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Education"
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "summary": "Delete education record by ID",
+      "operationId": "deleteEducation",
+      "tags": ["Education"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully deleted education record",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Education Deleted Successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "Education": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          },
+          "school": {
+            "type": "string",
+            "example": "XYZ University"
+          },
+          "degree": {
+            "type": "string",
+            "example": "Bachelor of Science in Computer Science"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2018-09-01"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2022-06-01"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-01-28T12:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-01-28T12:00:00Z"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

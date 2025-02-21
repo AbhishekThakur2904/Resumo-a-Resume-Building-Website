@@ -1,0 +1,188 @@
+{
+  "/cover-letters": {
+    "get": {
+      "summary": "Fetch all cover letters",
+      "operationId": "getAllCoverLetter",
+      "responses": {
+        "200": {
+          "description": "List of all cover letters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CoverLetter"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "summary": "Create a new cover letter",
+      "operationId": "createCoverLetter",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CoverLetter"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Cover letter created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoverLetter"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/cover-letters/my": {
+    "get": {
+      "summary": "Fetch cover letters for the current user",
+      "operationId": "getCoverLetterByUserId",
+      "responses": {
+        "200": {
+          "description": "List of cover letters belonging to the current user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CoverLetter"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/cover-letters/{id}": {
+    "get": {
+      "summary": "Fetch a cover letter by ID",
+      "operationId": "getCoverLetterById",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the cover letter",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "The requested cover letter",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoverLetter"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Cover letter not found"
+        }
+      }
+    },
+    "patch": {
+      "summary": "Update an existing cover letter",
+      "operationId": "updateCoverLetter",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the cover letter to update",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CoverLetter"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Cover letter updated successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoverLetter"
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "summary": "Delete a cover letter",
+      "operationId": "deleteCoverLetter",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "The ID of the cover letter to delete",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Cover letter deleted successfully"
+        },
+        "404": {
+          "description": "Cover letter not found"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CoverLetter": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The user ID associated with the cover letter"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the cover letter"
+          },
+          "content": {
+            "type": "string",
+            "description": "The content of the cover letter"
+          },
+          "template": {
+            "type": "string",
+            "description": "The template used for the cover letter"
+          }
+        },
+        "required": ["userId", "title", "content"]
+      }
+    }
+  }
+}

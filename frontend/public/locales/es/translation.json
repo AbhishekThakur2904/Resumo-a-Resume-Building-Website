@@ -1,0 +1,15 @@
+{
+  "header": {
+    "title": "Aplicación de Programación de Citas",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "name": "Nombre",
+    "home": "Inicio",
+    "role": "Rol",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Enviar",
+    "forgotPassword": "Olvidé mi contraseña"
+  }
+}

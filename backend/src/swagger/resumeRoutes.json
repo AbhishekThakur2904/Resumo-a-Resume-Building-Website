@@ -1,0 +1,271 @@
+{
+  "/resumes": {
+    "get": {
+      "summary": "Get all resumes",
+      "operationId": "getAllResumes",
+      "tags": ["Resumes"],
+      "responses": {
+        "200": {
+          "description": "Successfully fetched resumes",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Resume Fetched Successfully"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Resume"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "summary": "Create a new resume",
+      "operationId": "createResume",
+      "tags": ["Resumes"],
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Resume"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully created a new resume",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Resume"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/resumes/my": {
+    "get": {
+      "summary": "Get resumes of the current user",
+      "operationId": "getResumeByUserId",
+      "tags": ["Resumes"],
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully fetched resumes for the user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Resume Fetched Successfully"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Resume"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/resumes/{id}": {
+    "get": {
+      "summary": "Get a specific resume by ID",
+      "operationId": "getResumeById",
+      "tags": ["Resumes"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully fetched resume by ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Resume"
+              }
+            }
+          }
+        }
+      }
+    },
+    "patch": {
+      "summary": "Update a resume",
+      "operationId": "updateResume",
+      "tags": ["Resumes"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Resume"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully updated the resume",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Resume"
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "summary": "Delete a specific resume",
+      "operationId": "deleteResume",
+      "tags": ["Resumes"],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully deleted the resume",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Resume Deleted Successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Resume": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          },
+          "userId": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          },
+          "title": {
+            "type": "string",
+            "example": "Full Stack Developer"
+          },
+          "template": {
+            "type": "string",
+            "example": "Modern"
+          },
+          "personalInfo": {
+            "type": "string",
+            "example": "603d9c207f9b4b1f3b10b0e9"
+          },
+          "education": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "603d9c207f9b4b1f3b10b0e9"
+            }
+          },
+          "experience": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "603d9c207f9b4b1f3b10b0e9"
+            }
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "JavaScript"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-01-28T12:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-01-28T12:00:00Z"
+          }
+        }
+      }
+    }
+  }
+}
