@@ -29,9 +29,10 @@ interface EducationProps {
 interface IEducation {
   school: string;
   degree: string;
-  startDate: string;
-  endDate: string;
+  startDate: string | null; // ✅ Allow null values
+  endDate: string | null;   // ✅ Allow null values
 }
+
 
 
 
@@ -53,25 +54,21 @@ const schema = yup.object({
         endDate: yup.string().nullable().required("Please Enter End Date"),
       })
     )
-    .required("Education field is required") // 🔥 Ensure the array itself is required
+    .required("Education field is required")
     .min(1, "At least one education entry is required"),
-}).required(); // 🔥 Ensure the entire schema is required
+}).required();
 
 
 
 
-const {
-  control,
-  handleSubmit,
-  setValue,
-  register,
-  formState: { errors },
-} = useForm<{ education: IEducation[] }>({
+
+const { control, handleSubmit, setValue, register, formState: { errors } } = useForm<{ education: IEducation[] }>({
   resolver: yupResolver(schema),
   defaultValues: {
-    education: [{ school: "", degree: "", startDate: null, endDate: null }],
+    education: [{ school: "", degree: "", startDate: "", endDate: "" }], // ✅ Use empty strings instead of null
   },
 });
+
 
 
   const { fields, append, remove } = useFieldArray({
@@ -165,12 +162,14 @@ const {
             </FormLabel>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DateTimePicker"]}>
-                <DatePicker
+              <DatePicker
+  value={field.startDate ? dayjs(field.startDate) : null}
   onChange={(newValue) => {
-    const val = newValue ? newValue.format("YYYY-MM-DD") : null;
-    setValue(`education.${index}.startDate`, val); // Corrected
+    const val = newValue ? newValue.format("YYYY-MM-DD") : ""; // ✅ Use empty string instead of null
+    setValue(`education.${index}.startDate`, val);
   }}
 />
+
 
               </DemoContainer>
               {errors.education?.[index]?.startDate && (
