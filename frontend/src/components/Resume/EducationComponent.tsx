@@ -169,9 +169,10 @@ const schema = yup.object({
                 />
               </DemoContainer>
               {errors.education?.[index]?.startDate && (
-                <FormHelperText error>
-                  {errors.education[index].startDate?.message}
-                </FormHelperText>
+              <FormHelperText error>
+  {errors.education?.[index]?.startDate?.message?.toString()}
+</FormHelperText>
+
               )}
             </LocalizationProvider>
             <FormLabel htmlFor={`education[${index}].endDate`}>
@@ -187,9 +188,10 @@ const schema = yup.object({
                 />
               </DemoContainer>
               {errors.education?.[index]?.endDate && (
-                <FormHelperText error>
-                  {errors.education[index].endDate?.message}
-                </FormHelperText>
+              <FormHelperText error>
+  {errors.education?.[index]?.endDate?.message?.toString()}
+</FormHelperText>
+
               )}
             </LocalizationProvider>
             <Divider sx={{ borderBottom: "1px solid", marginTop: "20px" }} />
