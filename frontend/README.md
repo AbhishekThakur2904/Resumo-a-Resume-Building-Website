@@ -1,6 +1,6 @@
-# Resume Builder - Frontend
+# Resumo - Frontend
 
-This is the frontend part of the Resume and Cover Letter Builder application built using React, Redux, and Material UI. The application allows users to create, manage, and customize their resumes and cover letters, with an intuitive and responsive UI.
+This is the frontend part of the Resumo application built using React, Redux, and Material UI. The application allows users to create, manage, and customize their resumes and cover letters, with an intuitive and responsive UI.
 
 ## Table of Contents
 
