@@ -23,10 +23,10 @@ import { motion } from "motion/react";
 import { useTranslation } from "react-i18next";
 type Props = {};
 type User = {
-  name: string;
-  email: string;
-  password: string;
-  role: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  role?: string;
 };
 
 const RegisterComponent = (props: Props) => {
