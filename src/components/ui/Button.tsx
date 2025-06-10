@@ -50,7 +50,7 @@ export const Button = ({
       disabled={isDisabled}
       {...props}
     >
-      {loading && <LoadingSpinner size="sm" className="mr-2" />}
+      {loading && <LoadingSpinner size="sm\" className="mr-2" />}
       {children}
     </motion.button>
   )
