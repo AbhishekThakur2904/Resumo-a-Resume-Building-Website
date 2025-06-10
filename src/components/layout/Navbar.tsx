@@ -23,6 +23,7 @@ export const Navbar = () => {
       dispatch(logout())
       toast.success('Logged out successfully')
     } catch (error) {
+      // Even if the API call fails, we should still log out the user locally
       dispatch(logout())
       toast.success('Logged out successfully')
     }
@@ -46,7 +47,7 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             {isAuthenticated ? (
               <>
-                <Link href="/dashboard\" className="text-gray-700 hover:text-primary-500 transition-colors">
+                <Link href="/dashboard" className="text-gray-700 hover:text-primary-500 transition-colors">
                   <Home className="w-5 h-5 inline mr-1" />
                   Dashboard
                 </Link>

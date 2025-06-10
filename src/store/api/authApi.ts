@@ -28,6 +28,7 @@ export const authApi = baseApi.injectEndpoints({
         url: '/users/login',
         method: 'POST',
         body: credentials,
+        credentials: 'include', // Include cookies
       }),
     }),
     register: builder.mutation<any, RegisterRequest>({
@@ -35,12 +36,14 @@ export const authApi = baseApi.injectEndpoints({
         url: '/users/register',
         method: 'POST',
         body: userData,
+        credentials: 'include',
       }),
     }),
     logout: builder.mutation<any, void>({
       query: () => ({
         url: '/users/logout',
         method: 'PATCH',
+        credentials: 'include', // Include cookies for logout
       }),
     }),
     forgotPassword: builder.mutation<any, ForgotPasswordRequest>({
@@ -48,6 +51,7 @@ export const authApi = baseApi.injectEndpoints({
         url: '/users/forgot-password',
         method: 'POST',
         body: data,
+        credentials: 'include',
       }),
     }),
     updatePassword: builder.mutation<any, UpdatePasswordRequest>({
@@ -55,12 +59,14 @@ export const authApi = baseApi.injectEndpoints({
         url: '/users/update-password',
         method: 'PATCH',
         body: data,
+        credentials: 'include',
       }),
     }),
     refreshToken: builder.mutation<any, void>({
       query: () => ({
         url: '/users/refresh',
         method: 'GET',
+        credentials: 'include', // Include cookies for refresh
       }),
     }),
   }),

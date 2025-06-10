@@ -50,19 +50,20 @@ export default function LoginPage() {
       const result = await login(data).unwrap()
       
       if (result.success) {
-        dispatch(setCredentials({
-          user: result.data.user,
-          accessToken: result.data.accessToken,
-          refreshToken: result.data.refreshToken,
-        }))
+        // Extract user and tokens from the response
+        const { user, accessToken, refreshToken } = result.data
         
-        // Store user data in localStorage for persistence
-        localStorage.setItem('user', JSON.stringify(result.data.user))
+        dispatch(setCredentials({
+          user,
+          accessToken,
+          refreshToken,
+        }))
         
         toast.success('Login successful!')
         router.push('/dashboard')
       }
     } catch (error: any) {
+      console.error('Login error:', error)
       toast.error(error?.data?.message || 'Login failed')
     }
   }

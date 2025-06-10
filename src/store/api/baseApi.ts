@@ -1,15 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
 import { updateTokens, logout } from '../slices/authSlice'
-import Cookies from 'js-cookie'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  credentials: 'include', // This is crucial for cookies
   prepareHeaders: (headers, { getState }) => {
-    const token = Cookies.get('accessToken')
-    if (token) {
-      headers.set('authorization', `Bearer ${token}`)
-    }
+    // Don't manually set Authorization header since we're using cookies
+    // The backend will read the accessToken from cookies
+    headers.set('Content-Type', 'application/json')
     return headers
   },
 })
@@ -18,31 +17,27 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions)
 
   if (result?.error?.status === 401) {
-    // Try to get a new token
-    const refreshToken = Cookies.get('refreshToken')
-    if (refreshToken) {
-      const refreshResult = await baseQuery(
-        {
-          url: '/users/refresh',
-          method: 'GET',
-          headers: {
-            authorization: `Bearer ${refreshToken}`,
-          },
-        },
-        api,
-        extraOptions
-      )
+    // Try to refresh the token using the refresh endpoint
+    const refreshResult = await baseQuery(
+      {
+        url: '/users/refresh',
+        method: 'GET',
+        credentials: 'include', // Include cookies for refresh token
+      },
+      api,
+      extraOptions
+    )
 
-      if (refreshResult?.data) {
-        const { accessToken, refreshToken: newRefreshToken } = (refreshResult.data as any).data
-        
-        // Store the new tokens
+    if (refreshResult?.data) {
+      const refreshData = refreshResult.data as any
+      if (refreshData.success) {
+        // Update tokens in Redux store
         api.dispatch(updateTokens({
-          accessToken,
-          refreshToken: newRefreshToken,
+          accessToken: refreshData.data.accessToken,
+          refreshToken: refreshData.data.refreshToken,
         }))
 
-        // Retry the original query with new token
+        // Retry the original query
         result = await baseQuery(args, api, extraOptions)
       } else {
         api.dispatch(logout())

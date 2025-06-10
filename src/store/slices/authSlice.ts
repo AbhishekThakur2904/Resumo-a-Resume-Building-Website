@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import Cookies from 'js-cookie'
 
 interface User {
   _id: string
@@ -40,9 +39,9 @@ const authSlice = createSlice({
       state.refreshToken = refreshToken
       state.isAuthenticated = true
       
-      // Store tokens in cookies
-      Cookies.set('accessToken', accessToken, { expires: 1 })
-      Cookies.set('refreshToken', refreshToken, { expires: 7 })
+      // Store user data in localStorage for persistence across page reloads
+      localStorage.setItem('user', JSON.stringify(user))
+      localStorage.setItem('isAuthenticated', 'true')
     },
     logout: (state) => {
       state.user = null
@@ -50,9 +49,9 @@ const authSlice = createSlice({
       state.refreshToken = null
       state.isAuthenticated = false
       
-      // Remove tokens from cookies
-      Cookies.remove('accessToken')
-      Cookies.remove('refreshToken')
+      // Clear localStorage
+      localStorage.removeItem('user')
+      localStorage.removeItem('isAuthenticated')
     },
     updateTokens: (
       state,
@@ -64,13 +63,28 @@ const authSlice = createSlice({
       const { accessToken, refreshToken } = action.payload
       state.accessToken = accessToken
       state.refreshToken = refreshToken
+      // Keep user authenticated
+      state.isAuthenticated = true
+    },
+    // Initialize auth state from localStorage
+    initializeAuth: (state) => {
+      const userData = localStorage.getItem('user')
+      const isAuthenticated = localStorage.getItem('isAuthenticated')
       
-      // Update cookies
-      Cookies.set('accessToken', accessToken, { expires: 1 })
-      Cookies.set('refreshToken', refreshToken, { expires: 7 })
+      if (userData && isAuthenticated === 'true') {
+        try {
+          state.user = JSON.parse(userData)
+          state.isAuthenticated = true
+        } catch (error) {
+          console.error('Error parsing user data from localStorage:', error)
+          // Clear corrupted data
+          localStorage.removeItem('user')
+          localStorage.removeItem('isAuthenticated')
+        }
+      }
     },
   },
 })
 
-export const { setCredentials, logout, updateTokens } = authSlice.actions
+export const { setCredentials, logout, updateTokens, initializeAuth } = authSlice.actions
 export default authSlice.reducer

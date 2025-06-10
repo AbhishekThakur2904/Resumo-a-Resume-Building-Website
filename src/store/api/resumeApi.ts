@@ -41,15 +41,22 @@ export const resumeApi = baseApi.injectEndpoints({
         url: '/resume',
         method: 'POST',
         body: data,
+        credentials: 'include', // Include cookies
       }),
       invalidatesTags: ['Resume'],
     }),
     getMyResumes: builder.query<any, void>({
-      query: () => '/resume/my',
+      query: () => ({
+        url: '/resume/my',
+        credentials: 'include', // Include cookies
+      }),
       providesTags: ['Resume'],
     }),
     getResumeById: builder.query<any, string>({
-      query: (id) => `/resume/${id}`,
+      query: (id) => ({
+        url: `/resume/${id}`,
+        credentials: 'include', // Include cookies
+      }),
       providesTags: ['Resume'],
     }),
     updateResume: builder.mutation<any, { resumeId: string; data: Partial<Resume> }>({
@@ -57,6 +64,7 @@ export const resumeApi = baseApi.injectEndpoints({
         url: `/resume/${resumeId}`,
         method: 'PATCH',
         body: data,
+        credentials: 'include', // Include cookies
       }),
       invalidatesTags: ['Resume'],
     }),
@@ -64,6 +72,7 @@ export const resumeApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `/resume/${id}`,
         method: 'DELETE',
+        credentials: 'include', // Include cookies
       }),
       invalidatesTags: ['Resume'],
     }),
@@ -74,6 +83,7 @@ export const resumeApi = baseApi.injectEndpoints({
         url: '/personal-info',
         method: 'POST',
         body: data,
+        credentials: 'include', // Include cookies
       }),
       invalidatesTags: ['PersonalInfo'],
     }),
@@ -84,6 +94,7 @@ export const resumeApi = baseApi.injectEndpoints({
         url: '/education',
         method: 'POST',
         body: { education: data },
+        credentials: 'include', // Include cookies
       }),
       invalidatesTags: ['Education'],
     }),
@@ -94,6 +105,7 @@ export const resumeApi = baseApi.injectEndpoints({
         url: '/experience',
         method: 'POST',
         body: { experience: data },
+        credentials: 'include', // Include cookies
       }),
       invalidatesTags: ['Experience'],
     }),
@@ -104,6 +116,7 @@ export const resumeApi = baseApi.injectEndpoints({
         url: '/send-email',
         method: 'POST',
         body: formData,
+        credentials: 'include', // Include cookies
       }),
     }),
   }),
