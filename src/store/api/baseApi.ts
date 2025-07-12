@@ -3,7 +3,7 @@ import { RootState } from '../store'
 import { updateTokens, logout } from '../slices/authSlice'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
   credentials: 'include', // This is crucial for cookies
   prepareHeaders: (headers, { getState }) => {
     // Don't manually set Authorization header since we're using cookies
@@ -53,6 +53,6 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['User', 'Resume', 'PersonalInfo', 'Education', 'Experience'],
+  tagTypes: ['User', 'Resume', 'PersonalInfo', 'Education', 'Experience', 'CoverLetter'],
   endpoints: () => ({}),
 })

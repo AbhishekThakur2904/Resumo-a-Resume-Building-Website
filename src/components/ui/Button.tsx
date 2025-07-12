@@ -1,57 +1,81 @@
 'use client'
 
-import { ButtonHTMLAttributes, ReactNode } from 'react'
+import { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react'
 import { motion } from 'framer-motion'
 import { LoadingSpinner } from './LoadingSpinner'
+import { cn } from '@/lib/utils'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
-  size?: 'sm' | 'md' | 'lg'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'
+  size?: 'sm' | 'md' | 'lg' | 'icon'
   loading?: boolean
   children: ReactNode
+  asChild?: boolean
 }
 
-export const Button = ({
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   variant = 'primary',
   size = 'md',
   loading = false,
   children,
-  className = '',
+  className,
   disabled,
+  asChild = false,
   ...props
-}: ButtonProps) => {
-  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
+}, ref) => {
+  const baseClasses = 'btn'
   
   const variantClasses = {
-    primary: 'bg-primary-500 hover:bg-primary-600 text-white focus:ring-primary-500',
-    secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-800 focus:ring-gray-500',
-    outline: 'border border-primary-500 text-primary-500 hover:bg-primary-50 focus:ring-primary-500',
-    ghost: 'text-primary-500 hover:bg-primary-50 focus:ring-primary-500'
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    outline: 'btn-outline',
+    ghost: 'btn-ghost',
+    destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
   }
   
   const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg'
+    sm: 'btn-sm',
+    md: '',
+    lg: 'btn-lg',
+    icon: 'h-10 w-10'
   }
 
   const isDisabled = disabled || loading
 
+  const buttonClasses = cn(
+    baseClasses,
+    variantClasses[variant],
+    sizeClasses[size],
+    className
+  )
+
+  if (asChild) {
+    return (
+      <motion.div
+        whileHover={!isDisabled ? { scale: 1.02 } : {}}
+        whileTap={!isDisabled ? { scale: 0.98 } : {}}
+        className={buttonClasses}
+      >
+        {children}
+      </motion.div>
+    )
+  }
+
   return (
     <motion.button
+      ref={ref}
       whileHover={!isDisabled ? { scale: 1.02 } : {}}
       whileTap={!isDisabled ? { scale: 0.98 } : {}}
-      className={`
-        ${baseClasses}
-        ${variantClasses[variant]}
-        ${sizeClasses[size]}
-        ${className}
-      `}
+      className={buttonClasses}
       disabled={isDisabled}
       {...props}
     >
-      {loading && <LoadingSpinner size="sm\" className="mr-2" />}
+      {loading && <LoadingSpinner size="sm" className="mr-2" />}
       {children}
     </motion.button>
   )
-}
+})
+
+Button.displayName = 'Button'
+
+export { Button }
